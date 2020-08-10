@@ -28,10 +28,10 @@ import java.util.Set;
 
 public class Crops implements Listener {
 
-    Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
-    Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
+    private Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
+    private Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
 
-    Map<Material, Material> treeMaterials = new ImmutableMap.Builder<Material, Material>()
+    private Map<Material, Material> treeMaterials = new ImmutableMap.Builder<Material, Material>()
             .put(Material.OAK_LOG, Material.OAK_SAPLING)
             .put(Material.BIRCH_LOG, Material.BIRCH_SAPLING)
             .put(Material.SPRUCE_LOG, Material.SPRUCE_SAPLING)
@@ -49,7 +49,7 @@ public class Crops implements Listener {
             .put(Material.STRIPPED_CRIMSON_STEM, Material.CRIMSON_FUNGUS)
             .put(Material.STRIPPED_WARPED_STEM, Material.WARPED_FUNGUS)
             .build();
-    Set<Material> saplings = new HashSet<>(treeMaterials.values());
+    private Set<Material> saplings = new HashSet<>(treeMaterials.values());
 
     @EventHandler
     public void cropBroken(BlockBreakEvent event) {

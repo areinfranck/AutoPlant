@@ -29,6 +29,8 @@ import java.util.Set;
 public class Crops implements Listener {
 
     Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
+    Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
+
     Map<Material, Material> treeMaterials = new ImmutableMap.Builder<Material, Material>()
             .put(Material.OAK_LOG, Material.OAK_SAPLING)
             .put(Material.BIRCH_LOG, Material.BIRCH_SAPLING)
@@ -142,9 +144,7 @@ public class Crops implements Listener {
 
         Bukkit.getLogger().finer("Handling tree.");
 
-        if (!(block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType().equals(Material.DIRT))
-            && !(block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType().equals(Material.WARPED_NYLIUM))
-            && !(block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType().equals(Material.CRIMSON_NYLIUM))) {
+        if (!soil.contains((block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType()))) {
             Bukkit.getLogger().finer("Log not on dirt.");
             return;
         }

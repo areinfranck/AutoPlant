@@ -6,7 +6,7 @@
 
     <groupId>me.theminddroid</groupId>
     <artifactId>AutoPlant</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>3.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>AutoPlant</name>
@@ -16,7 +16,6 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>https://bronsin.com/</url>
 
     <build>
         <defaultGoal>clean package</defaultGoal>

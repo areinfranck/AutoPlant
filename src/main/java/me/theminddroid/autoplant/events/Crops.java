@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class Crops implements Listener {
 
-    Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
+    private Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
     private Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
 
     private Map<Material, Material> treeMaterials = new ImmutableMap.Builder<Material, Material>()

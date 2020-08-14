@@ -18,6 +18,9 @@ public final class AutoPlant extends JavaPlugin {
     public void onEnable() {
         System.out.println("The plugin has started...");
         getServer().getPluginManager().registerEvents(new Crops(), this);
+
+        int pluginID = 8534;
+        Metrics metrics = new Metrics(this,pluginID);
     }
 
     @Override

@@ -1,5 +1,5 @@
 name: AutoPlant
-version: "4.2"
+version: "4.3"
 main: me.theminddroid.autoplant.AutoPlant
 api-version: "1.13"
 authors: [TheMindDroid]

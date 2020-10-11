@@ -11,6 +11,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import me.theminddroid.autoplant.AutoPlant;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -27,6 +28,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class Crops implements Listener {
+
+    String saplingMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Sapling");
+    String cropMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Crop");
 
     private final Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
     private final Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
@@ -91,7 +95,7 @@ public class Crops implements Listener {
 
         if (saplings.contains(material)) {
             event.setCancelled(true);
-            player.sendTitle("","§2That tree isn't fully grown yet!", 10, 30,10);
+            player.sendTitle("", ChatColor.DARK_GREEN + saplingMessage, 10, 30,10);
         }
     }
 
@@ -115,7 +119,7 @@ public class Crops implements Listener {
         if (age.getAge() != age.getMaximumAge()) {
 
             event.setCancelled(true);
-            player.sendTitle("","§2That crop isn't fully grown yet!", 10, 30,10);
+            player.sendTitle("", ChatColor.DARK_GREEN + cropMessage, 10, 30,10);
             return;
         }
 

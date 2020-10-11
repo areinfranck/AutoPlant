@@ -21,6 +21,9 @@ public final class AutoPlant extends JavaPlugin {
 
         int pluginID = 8534;
         Metrics metrics = new Metrics(this,pluginID);
+
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
     }
 
     @Override

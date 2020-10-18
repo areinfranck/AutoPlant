@@ -29,9 +29,6 @@ import java.util.Set;
 
 public class Crops implements Listener {
 
-    String saplingMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Sapling");
-    String cropMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Crop");
-
     private final Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
     private final Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
 
@@ -91,6 +88,7 @@ public class Crops implements Listener {
     }
 
     private void handleSapling(BlockBreakEvent event, Player player, Block block) {
+        String saplingMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Sapling");
         Material material = block.getType();
 
         if (saplings.contains(material)) {
@@ -101,6 +99,7 @@ public class Crops implements Listener {
 
 
     private void handleCrop(BlockBreakEvent event, Player player, Block block) {
+        String cropMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Crop");
         BlockData blockData = block.getBlockData();
         Material material = block.getType();
 

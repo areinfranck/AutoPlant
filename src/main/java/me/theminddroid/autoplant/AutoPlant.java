@@ -5,10 +5,13 @@ import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import me.theminddroid.autoplant.events.ConfigReload;
 import me.theminddroid.autoplant.events.Crops;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class AutoPlant extends JavaPlugin {
 
@@ -18,6 +21,7 @@ public final class AutoPlant extends JavaPlugin {
     public void onEnable() {
         System.out.println("The plugin has started...");
         getServer().getPluginManager().registerEvents(new Crops(), this);
+        Objects.requireNonNull(getCommand("autoplant")).setExecutor(new ConfigReload());
 
         int pluginID = 8534;
         Metrics metrics = new Metrics(this,pluginID);

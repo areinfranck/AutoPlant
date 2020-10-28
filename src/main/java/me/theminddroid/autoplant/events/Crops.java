@@ -93,7 +93,8 @@ public class Crops implements Listener {
 
         if (saplings.contains(material)) {
             event.setCancelled(true);
-            player.sendTitle("", ChatColor.DARK_GREEN + saplingMessage, 10, 30,10);
+            assert saplingMessage != null;
+            player.sendTitle("", ChatColor.translateAlternateColorCodes('&', saplingMessage), 10, 30,10);
         }
     }
 
@@ -118,7 +119,8 @@ public class Crops implements Listener {
         if (age.getAge() != age.getMaximumAge()) {
 
             event.setCancelled(true);
-            player.sendTitle("", ChatColor.DARK_GREEN + cropMessage, 10, 30,10);
+            assert cropMessage != null;
+            player.sendTitle("", ChatColor.translateAlternateColorCodes('&', cropMessage), 10, 30,10);
             return;
         }
 

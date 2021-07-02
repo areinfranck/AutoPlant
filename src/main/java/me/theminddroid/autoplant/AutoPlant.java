@@ -22,9 +22,9 @@ public final class AutoPlant extends JavaPlugin {
         System.out.println("The plugin has started...");
         getServer().getPluginManager().registerEvents(new Crops(), this);
         Objects.requireNonNull(getCommand("autoplant")).setExecutor(new ConfigReload());
+        Objects.requireNonNull(this.getCommand("autoplant")).setTabCompleter(new AutoPlantTabCompleter());
 
-        int pluginID = 8534;
-        Metrics metrics = new Metrics(this,pluginID);
+        new Metrics(this, 8534);
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();

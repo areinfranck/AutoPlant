@@ -10,8 +10,8 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import me.theminddroid.autoplant.AutoPlant;
+import me.theminddroid.autoplant.HexCreator;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -94,7 +94,7 @@ public class Crops implements Listener {
         if (saplings.contains(material)) {
             event.setCancelled(true);
             assert saplingMessage != null;
-            player.sendTitle("", ChatColor.translateAlternateColorCodes('&', saplingMessage), 10, 30,10);
+            player.sendTitle(" ", HexCreator.generateHexMessage(saplingMessage), 10, 30,10);
         }
     }
 
@@ -120,7 +120,7 @@ public class Crops implements Listener {
 
             event.setCancelled(true);
             assert cropMessage != null;
-            player.sendTitle("", ChatColor.translateAlternateColorCodes('&', cropMessage), 10, 30,10);
+            player.sendTitle(" ", HexCreator.generateHexMessage(cropMessage), 10, 30,10);
             return;
         }
 

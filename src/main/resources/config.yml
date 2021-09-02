@@ -11,5 +11,8 @@ Sapling: "[#1ed72c]That [#21bd21]tree [#21a317]isn't [#1f8a0e]fully [#1a7206]gro
 #This field allows you to change the message when a crop is broken:
 Crop: "[#1ed72c]That [#21bd21]crop [#21a317]isn't [#1f8a0e]fully [#1a7206]grown [#257e08]yet!"
 
+#This field allows you to change the message when a player doesn't harvest full stackable crop:
+StackableCropBase: "[#1ed72c]You [#1ed72c]must [#21bd21]break [#21a317]the [#1f8a0e]base [#1a7206]crop [#257e08]to [#257e08]harvest."
+
 #Once you have edited a title, be sure to reload the config using '/autoplant reload'.
 #If you have any issue with the config file, you can delete the file, restart the server, and a new one will generated.

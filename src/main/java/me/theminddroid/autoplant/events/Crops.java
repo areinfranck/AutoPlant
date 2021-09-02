@@ -30,6 +30,7 @@ import java.util.Set;
 public class Crops implements Listener {
 
     private final Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
+    private final Set<Material> stackableCropList = EnumSet.of(Material.SUGAR_CANE, Material.CACTUS);
     private final Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
 
     private final Map<Material, Material> treeMaterials = new ImmutableMap.Builder<Material, Material>()
@@ -84,6 +85,7 @@ public class Crops implements Listener {
 
         handleCrop(event, player, block);
         handleTree(block);
+        handleStackableCrops(event, player, block);
         handleSapling(event, player, block);
     }
 
@@ -154,5 +156,37 @@ public class Crops implements Listener {
             return;
         }
         Bukkit.getScheduler().runTaskLater(AutoPlant.getInstance(), () -> block.setType(treeMaterials.get(material)), 1);
+    }
+
+
+    private void handleStackableCrops(BlockBreakEvent event, Player player, Block block) {
+        String stackableCropBaseMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("StackableCropBase");
+        String cropMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Crop");
+
+        BlockData blockData = block.getBlockData();
+        Material material = block.getType();
+
+        if (!stackableCropList.contains(material)) {
+            return;
+        }
+
+        Bukkit.getLogger().finer("Handling stackable crop.");
+
+        if (block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType() == material) {
+            cancelEvent(event, player, stackableCropBaseMessage);
+            return;
+        }
+
+        if (block.getLocation().add(0.0, 2.0, 0.0).getBlock().getType() != material) {
+            cancelEvent(event, player, cropMessage);
+            return;
+        }
+
+        Bukkit.getScheduler().runTaskLater(AutoPlant.getInstance(), () -> block.setType(material), 10);
+    }
+
+    private void cancelEvent(BlockBreakEvent event, Player player, String message) {
+        event.setCancelled(true);
+        player.sendTitle(" ", HexCreator.generateHexMessage(message), 10, 30, 10);
     }
 }

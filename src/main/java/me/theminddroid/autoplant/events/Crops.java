@@ -33,6 +33,25 @@ public class Crops implements Listener {
     private final Set<Material> stackableCropList = EnumSet.of(Material.SUGAR_CANE, Material.CACTUS);
     private final Set<Material> soil = EnumSet.of(Material.DIRT, Material.WARPED_NYLIUM, Material.CRIMSON_NYLIUM);
 
+    private final Map<Material, String> configFields = new ImmutableMap.Builder<Material, String>()
+            .put(Material.SUGAR_CANE, "SUGAR CANE")
+            .put(Material.CACTUS, "CACTUS")
+            .put(Material.WHEAT, "WHEAT")
+            .put(Material.POTATOES, "POTATOES")
+            .put(Material.CARROTS, "CARROTS")
+            .put(Material.COCOA, "COCOA BEANS")
+            .put(Material.BEETROOTS, "BEETROOTS")
+            .put(Material.NETHER_WART, "NETHER WARTS")
+            .put(Material.OAK_SAPLING, "OAK")
+            .put(Material.BIRCH_SAPLING, "BIRCH")
+            .put(Material.SPRUCE_SAPLING, "SPRUCE")
+            .put(Material.ACACIA_SAPLING, "ACACIA")
+            .put(Material.DARK_OAK_SAPLING, "DARK OAK")
+            .put(Material.JUNGLE_SAPLING, "JUNGLE")
+            .put(Material.CRIMSON_FUNGUS, "CRIMSON")
+            .put(Material.WARPED_FUNGUS, "WARPED")
+            .build();
+
     private final Map<Material, Material> treeMaterials = new ImmutableMap.Builder<Material, Material>()
             .put(Material.OAK_LOG, Material.OAK_SAPLING)
             .put(Material.BIRCH_LOG, Material.BIRCH_SAPLING)
@@ -51,6 +70,7 @@ public class Crops implements Listener {
             .put(Material.STRIPPED_CRIMSON_STEM, Material.CRIMSON_FUNGUS)
             .put(Material.STRIPPED_WARPED_STEM, Material.WARPED_FUNGUS)
             .build();
+
     private final Set<Material> saplings = new HashSet<>(treeMaterials.values());
 
     @EventHandler
@@ -79,6 +99,24 @@ public class Crops implements Listener {
         if (player.hasPermission("autoplant.bypass")) {
             Bukkit.getLogger().finer("Player has autoplant bypass.");
             return;
+        }
+
+        try {
+
+            if (treeMaterials.containsKey(block.getType())) {
+                if (!AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean(configFields.get(treeMaterials.get(block.getType())) + ".enabled")) {
+                    return;
+                }
+            }
+
+            if (configFields.containsKey(block.getType())){
+                if (!AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean(configFields.get(block.getType()) + ".enabled")) {
+                    return;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("[AutoPlant]: Unable to read toggled crops from config: " + e);
         }
 
         Bukkit.getLogger().finer("Crops triggered");

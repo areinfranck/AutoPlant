@@ -116,7 +116,7 @@ public class Crops implements Listener {
             }
 
         } catch (Exception e) {
-            System.out.println("[AutoPlant]: Unable to read toggled crops from config: " + e);
+            Bukkit.getLogger().warning("[AutoPlant]: Unable to read toggled crops from config: " + e);
         }
 
         Bukkit.getLogger().finer("Crops triggered");

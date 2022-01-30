@@ -1,6 +1,7 @@
 package me.theminddroid.autoplant.events;
 
 import me.theminddroid.autoplant.AutoPlant;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +38,7 @@ public class ConfigReload implements CommandExecutor {
             sender.sendMessage(ChatColor.DARK_GREEN + "AutoPlant config successfully reloaded!");
         } catch (Exception e) {
             sender.sendMessage(ChatColor.RED + "Unable to reload config file. Does the file exist?");
-            System.out.println("[AutoPlant]: Unable to reload plugin: " + e);
+            Bukkit.getLogger().warning("[AutoPlant]: Unable to reload plugin: " + e);
         }
         return true;
     }

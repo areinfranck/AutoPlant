@@ -13,12 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
-public final class AutoPlant extends JavaPlugin {
-
+public final class AutoPlant extends JavaPlugin
+{
     public static StateFlag AUTO_PLANT;
 
     @Override
-    public void onEnable() {
+    public void onEnable()
+    {
         Bukkit.getLogger().config("[AutoPlant] AutoPlant enabled.");
         getServer().getPluginManager().registerEvents(new Crops(), this);
         Objects.requireNonNull(getCommand("autoplant")).setExecutor(new ConfigReload());
@@ -31,33 +32,38 @@ public final class AutoPlant extends JavaPlugin {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad()
+    {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
+        try
+        {
             StateFlag flag = new StateFlag("auto-plant", false);
             registry.register(flag);
             AUTO_PLANT = flag;
-        } catch (FlagConflictException e) {
+        }
+        catch (FlagConflictException e)
+        {
             Flag<?> existing = registry.get("auto-plant");
-            if (existing instanceof StateFlag) {
+            if (existing instanceof StateFlag)
                 AUTO_PLANT = (StateFlag) existing;
-            } else {
+            else
+            {
                 getLogger().severe("Unable to load flag.");
                 throw e;
             }
         }
     }
 
-    public static AutoPlant getInstance() {
+    public static AutoPlant getInstance()
+    {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AutoPlant");
-        if (!(plugin instanceof AutoPlant)) {
-            throw new RuntimeException("'AutoPlant' not found. 'AutoPlant' plugin disabled?");
-        }
+        if (!(plugin instanceof AutoPlant)) throw new RuntimeException("'AutoPlant' not found. 'AutoPlant' plugin disabled?");
         return ((AutoPlant) plugin);
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable()
+    {
         Bukkit.getLogger().config("[AutoPlant] Autoplant is shutting down...");
     }
 }

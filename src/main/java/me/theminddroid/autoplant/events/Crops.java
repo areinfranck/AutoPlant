@@ -12,6 +12,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import me.theminddroid.autoplant.AutoPlant;
 import me.theminddroid.autoplant.HexCreator;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -27,7 +28,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Crops implements Listener {
+public class Crops implements Listener
+{
 
     private final Set<Material> cropList = EnumSet.of(Material.WHEAT, Material.POTATOES, Material.CARROTS, Material.COCOA, Material.BEETROOTS, Material.NETHER_WART);
     private final Set<Material> stackableCropList = EnumSet.of(Material.SUGAR_CANE, Material.CACTUS);
@@ -74,8 +76,8 @@ public class Crops implements Listener {
     private final Set<Material> saplings = new HashSet<>(treeMaterials.values());
 
     @EventHandler
-    public void cropBroken(BlockBreakEvent event) {
-
+    public void cropBroken(BlockBreakEvent event)
+    {
         Player player = event.getPlayer();
         Block block = event.getBlock();
 
@@ -83,7 +85,8 @@ public class Crops implements Listener {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionManager regions = container.get((World) worldGuardLocation.getExtent());
 
-        if (regions == null) {
+        if (regions == null)
+        {
             Bukkit.getLogger().finer("WorldGuard failed to return region manager for world.");
             return;
         }
@@ -91,31 +94,34 @@ public class Crops implements Listener {
         ApplicableRegionSet set = regions.getApplicableRegions(worldGuardLocation.toVector().toBlockPoint());
         LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
 
-        if (!set.testState(localPlayer, AutoPlant.AUTO_PLANT)) {
+        if (!set.testState(localPlayer, AutoPlant.AUTO_PLANT))
+        {
             Bukkit.getLogger().finer("Player not in autoplant region.");
             return;
         }
 
-        if (player.hasPermission("autoplant.bypass")) {
+        if (player.hasPermission("autoplant.bypass"))
+        {
+            if (player.isOp() && AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean("OPMessage"))
+            {
+                player.sendMessage(ChatColor.RED + "[AutoPlant]: OPed players have 'autoplant.bypass' permission. DEOP to utilize replant functionality.");
+                player.sendMessage(ChatColor.RED + "[AutoPlant]: To disable this message, toggle 'OPMessage' in config.");
+            }
+
             Bukkit.getLogger().finer("Player has autoplant bypass.");
             return;
         }
 
-        try {
+        try
+        {
+            if (treeMaterials.containsKey(block.getType()))
+                if (!AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean(configFields.get(treeMaterials.get(block.getType())) + ".enabled")) return;
 
-            if (treeMaterials.containsKey(block.getType())) {
-                if (!AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean(configFields.get(treeMaterials.get(block.getType())) + ".enabled")) {
-                    return;
-                }
-            }
-
-            if (configFields.containsKey(block.getType())){
-                if (!AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean(configFields.get(block.getType()) + ".enabled")) {
-                    return;
-                }
-            }
-
-        } catch (Exception e) {
+            if (configFields.containsKey(block.getType()))
+                if (!AutoPlant.getPlugin(AutoPlant.class).getConfig().getBoolean(configFields.get(block.getType()) + ".enabled")) return;
+        }
+        catch (Exception e)
+        {
             Bukkit.getLogger().warning("[AutoPlant]: Unable to read toggled crops from config: " + e);
         }
 
@@ -127,11 +133,13 @@ public class Crops implements Listener {
         handleSapling(event, player, block);
     }
 
-    private void handleSapling(BlockBreakEvent event, Player player, Block block) {
+    private void handleSapling(BlockBreakEvent event, Player player, Block block)
+    {
         String saplingMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Sapling");
         Material material = block.getType();
 
-        if (saplings.contains(material)) {
+        if (saplings.contains(material))
+        {
             event.setCancelled(true);
             assert saplingMessage != null;
             player.sendTitle(" ", HexCreator.generateHexMessage(saplingMessage), 10, 30,10);
@@ -139,25 +147,21 @@ public class Crops implements Listener {
     }
 
 
-    private void handleCrop(BlockBreakEvent event, Player player, Block block) {
+    private void handleCrop(BlockBreakEvent event, Player player, Block block)
+    {
         String cropMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Crop");
         BlockData blockData = block.getBlockData();
         Material material = block.getType();
 
-        if (!(blockData instanceof Ageable)) {
-            return;
-        }
-
-        if (!cropList.contains(material)) {
-            return;
-        }
+        if (!(blockData instanceof Ageable)) return;
+        if (!cropList.contains(material)) return;
 
         Bukkit.getLogger().finer("Handling crop.");
 
         Ageable age = (Ageable) blockData;
 
-        if (age.getAge() != age.getMaximumAge()) {
-
+        if (age.getAge() != age.getMaximumAge())
+        {
             event.setCancelled(true);
             assert cropMessage != null;
             player.sendTitle(" ", HexCreator.generateHexMessage(cropMessage), 10, 30,10);
@@ -179,17 +183,20 @@ public class Crops implements Listener {
     }
 
 
-    private void handleTree(Block block) {
+    private void handleTree(Block block)
+    {
         Material material = block.getType();
 
-        if (!(treeMaterials.containsKey(material))) {
+        if (!(treeMaterials.containsKey(material)))
+        {
             Bukkit.getLogger().finer("Tree not found " + material);
             return;
         }
 
         Bukkit.getLogger().finer("Handling tree.");
 
-        if (!soil.contains((block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType()))) {
+        if (!soil.contains((block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType())))
+        {
             Bukkit.getLogger().finer("Log not on dirt.");
             return;
         }
@@ -197,25 +204,26 @@ public class Crops implements Listener {
     }
 
 
-    private void handleStackableCrops(BlockBreakEvent event, Player player, Block block) {
+    private void handleStackableCrops(BlockBreakEvent event, Player player, Block block)
+    {
         String stackableCropBaseMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("StackableCropBase");
         String cropMessage = AutoPlant.getPlugin(AutoPlant.class).getConfig().getString("Crop");
 
         BlockData blockData = block.getBlockData();
         Material material = block.getType();
 
-        if (!stackableCropList.contains(material)) {
-            return;
-        }
+        if (!stackableCropList.contains(material)) return;
 
         Bukkit.getLogger().finer("Handling stackable crop.");
 
-        if (block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType() == material) {
+        if (block.getLocation().subtract(0.0, 1.0, 0.0).getBlock().getType() == material)
+        {
             cancelEvent(event, player, stackableCropBaseMessage);
             return;
         }
 
-        if (block.getLocation().add(0.0, 2.0, 0.0).getBlock().getType() != material) {
+        if (block.getLocation().add(0.0, 2.0, 0.0).getBlock().getType() != material)
+        {
             cancelEvent(event, player, cropMessage);
             return;
         }
@@ -223,7 +231,8 @@ public class Crops implements Listener {
         Bukkit.getScheduler().runTaskLater(AutoPlant.getInstance(), () -> block.setType(material), 10);
     }
 
-    private void cancelEvent(BlockBreakEvent event, Player player, String message) {
+    private void cancelEvent(BlockBreakEvent event, Player player, String message)
+    {
         event.setCancelled(true);
         player.sendTitle(" ", HexCreator.generateHexMessage(message), 10, 30, 10);
     }

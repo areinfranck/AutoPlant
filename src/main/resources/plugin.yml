@@ -1,7 +1,7 @@
 name: AutoPlant
-version: "5.8"
+version: "5.9"
 main: me.theminddroid.autoplant.AutoPlant
-api-version: "1.18"
+api-version: "1.19"
 authors: [TheMindDroid]
 description: Auto plants crops
 depend: [WorldGuard]

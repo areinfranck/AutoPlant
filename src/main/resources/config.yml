@@ -5,6 +5,9 @@
 
 #Plugin accepts both &f and [#FFFFFF] formatting codes.
 
+#Toggles message sent to player if interacting with plugin while OPed.
+OPMessage: true
+
 #This field allows you to change the message when a sapling is broken:
 Sapling: "[#1ed72c]That [#21bd21]tree [#21a317]isn't [#1f8a0e]fully [#1a7206]grown [#257e08]yet!"
 
